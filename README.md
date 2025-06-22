@@ -1,3 +1,19 @@
+# This fork changes the behavior of List command (file: duplicacy_snapshotmanager.go)
+* Add seconds to timestamp L715: `creationTime := time.Unix(snapshot.StartTime, 0).Format("2006-01-02 15:04:05")`
+* Remove duplicates from chunks list: 
+```
+if showChunks {
+				distinctchunkMap := make(map[string]bool)
+				for _, chunkID := range manager.GetSnapshotChunks(snapshot, false) {
+					distinctchunkMap[chunkID] = true
+				}
+				for chunkID, _ := range distinctchunkMap {
+					LOG_INFO("SNAPSHOT_CHUNKS", "chunk: %s", chunkID)
+				}
+			}
+```
+There are a few other changes by the automatic formatter, mostly whitespaces, just be sure to use w=1 at the end or url to ignore it.
+
 # Duplicacy: A lock-free deduplication cloud backup tool
 
 Duplicacy is a new generation cross-platform cloud backup tool based on the idea of [Lock-Free Deduplication](https://github.com/gilbertchen/duplicacy/wiki/Lock-Free-Deduplication).
